@@ -1,5 +1,5 @@
 // src/app/blog/wordpress-utils.js
-const API_URL = 'https://tu-wordpress.com/wp-json'; // Reemplaza con tu URL real
+const API_URL = 'https://blog.nidodecuidados.com/wp-json'; // URL de tu WordPress
 
 // Datos estáticos de respaldo
 const staticPosts = [
@@ -8,7 +8,7 @@ const staticPosts = [
         slug: 'importancia-contacto-piel-con-piel',
         title: { rendered: 'La importancia del contacto piel con piel' },
         excerpt: { rendered: '<p>El contacto piel con piel inmediato después del nacimiento fortalece el vínculo entre madre y bebé...</p>' },
-        content: { rendered: '<p>El contacto piel con piel inmediato después del nacimiento fortalece el vínculo entre madre y bebé de manera extraordinaria...</p>' },
+        content: { rendered: '<p>El contacto piel con piel inmediato después del nacimiento fortalece el vínculo entre madre y bebé de manera extraordinaria. Esta práctica, respaldada por numerosos estudios científicos, ofrece beneficios tanto físicos como emocionales.</p>' },
         date: '2024-04-15',
         categories: [1],
         _embedded: {
@@ -22,11 +22,11 @@ const staticPosts = [
         slug: 'preparandote-para-lactancia',
         title: { rendered: 'Preparándote para la lactancia: lo que debes saber' },
         excerpt: { rendered: '<p>Una buena preparación desde el embarazo puede hacer que la experiencia de lactancia sea más exitosa...</p>' },
-        content: { rendered: '<p>Prepararse para la lactancia durante el embarazo puede marcar una gran diferencia...</p>' },
+        content: { rendered: '<p>Prepararse para la lactancia durante el embarazo puede marcar una gran diferencia en tu experiencia. Conocer las bases y establecer una red de apoyo son clave.</p>' },
         date: '2024-04-02',
         categories: [2],
         _embedded: {
-            'wp:featuredmedia': [{ source_url: '/images/blog/lactancia-preparacion.jpg' }],
+            'wp:featuredmedia': [{ source_url: 'https://via.placeholder.com/600x400?text=Piel+con+piel' }],
             'wp:term': [[{ id: 2, name: 'Lactancia' }]],
             'author': [{ name: 'Natalia González' }]
         }
@@ -36,7 +36,7 @@ const staticPosts = [
         slug: 'metodos-anticonceptivos-lactancia',
         title: { rendered: 'Métodos anticonceptivos compatibles con la lactancia' },
         excerpt: { rendered: '<p>Conoce las opciones anticonceptivas que no afectan la producción de leche ni la salud del bebé...</p>' },
-        content: { rendered: '<p>Elegir el método anticonceptivo adecuado durante la lactancia es crucial...</p>' },
+        content: { rendered: '<p>Elegir el método anticonceptivo adecuado durante la lactancia es crucial para no afectar la producción de leche ni la salud del bebé.</p>' },
         date: '2024-03-20',
         categories: [3],
         _embedded: {
@@ -54,62 +54,50 @@ const staticCategories = [
     { id: 4, name: 'Prenatal' }
 ];
 
+// Por ahora, usar solo datos estáticos
 export async function getAllPosts() {
-    try {
-        console.log('Intentando obtener posts de:', `${API_URL}/wp/v2/posts?_embed&per_page=12`);
-
-        const response = await fetch(`${API_URL}/wp/v2/posts?_embed&per_page=12`);
-
-        if (!response.ok) {
-            console.error('Respuesta no OK:', response.status, response.statusText);
-            throw new Error(`Error al obtener posts: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Posts obtenidos:', data);
-        return data;
-    } catch (error) {
-        console.error('Error fetching posts, usando datos estáticos:', error);
-        return staticPosts; // Retorna datos estáticos si falla la petición
-    }
+    // Simular un pequeño delay como si fuera una API real
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log('Usando datos estáticos para posts');
+            resolve(staticPosts);
+        }, 500);
+    });
 }
 
 export async function getAllCategories() {
-    try {
-        console.log('Intentando obtener categorías de:', `${API_URL}/wp/v2/categories`);
-
-        const response = await fetch(`${API_URL}/wp/v2/categories`);
-
-        if (!response.ok) {
-            console.error('Respuesta no OK:', response.status, response.statusText);
-            throw new Error(`Error al obtener categorías: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Categorías obtenidas:', data);
-        return data;
-    } catch (error) {
-        console.error('Error fetching categories, usando datos estáticos:', error);
-        return staticCategories; // Retorna datos estáticos si falla la petición
-    }
+    // Simular un pequeño delay como si fuera una API real
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log('Usando datos estáticos para categorías');
+            resolve(staticCategories);
+        }, 300);
+    });
 }
 
 export async function getPostBySlug(slug) {
+    // Simular un pequeño delay como si fuera una API real
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log('Buscando post por slug:', slug);
+            const post = staticPosts.find(post => post.slug === slug);
+            resolve(post || null);
+        }, 400);
+    });
+}
+
+// OPCIONAL: Funciones para probar la conexión con WordPress cuando esté lista
+export async function testWordPressConnection() {
     try {
-        console.log('Intentando obtener post:', `${API_URL}/wp/v2/posts?slug=${slug}&_embed`);
-
-        const response = await fetch(`${API_URL}/wp/v2/posts?slug=${slug}&_embed`);
-
+        const response = await fetch(`${API_URL}`);
         if (!response.ok) {
-            console.error('Respuesta no OK:', response.status, response.statusText);
-            throw new Error(`Error al obtener post: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        const posts = await response.json();
-        return posts[0] || null;
+        const data = await response.json();
+        console.log('Conexión exitosa con WordPress:', data);
+        return true;
     } catch (error) {
-        console.error('Error fetching post by slug, usando datos estáticos:', error);
-        // Buscar en datos estáticos
-        return staticPosts.find(post => post.slug === slug) || null;
+        console.error('Error conectando con WordPress:', error);
+        return false;
     }
 }
