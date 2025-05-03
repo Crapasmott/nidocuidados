@@ -1,0 +1,274 @@
+/* src/app/prenatal/prenatal.css */
+:root {
+    --primary-color: #00927c;
+    --secondary-color: #e1ccad;
+    --text-color: #333;
+    --light-bg: #f8f9fa;
+  }
+  
+  /* Header styles */
+  .header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/banner-prenatal.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 120px 20px;
+    position: relative;
+  }
+  
+  .header h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .header p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+  }
+  
+  .cta-button:hover {
+    background-color: #007c69;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .social-links {
+    font-size: 1rem;
+  }
+  
+  .social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 5px;
+  }
+  
+  .social-links a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Modalities section */
+  .modalities {
+    background-color: var(--light-bg);
+    padding: 80px 20px;
+  }
+  
+  .modalities h2 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+  }
+  
+  .modalities-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .modality-card {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 350px;
+    transition: all 0.3s ease;
+  }
+  
+  .modality-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modality-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .modality-content {
+    padding: 20px;
+  }
+  
+  .modality-content h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .modality-content p {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+  
+  .modality-content ul {
+    color: var(--text-color);
+    padding-left: 20px;
+  }
+  
+  .price-tag {
+    background-color: var(--primary-color);
+    color: white;
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  /* Two column layout */
+  .two-column-layout {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+  }
+  
+  .modules-section {
+    flex: 2;
+    padding-right: 30px;
+  }
+  
+  .modules-section h2 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+  }
+  
+  .module {
+    display: flex;
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .module:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .module-icon {
+    background-color: var(--primary-color);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 20px;
+    flex-shrink: 0;
+  }
+  
+  .module h3 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .module p {
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+  
+  .side-content {
+    flex: 1;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    align-self: flex-start;
+    position: sticky;
+    top: 20px;
+  }
+  
+  .side-content h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+  }
+  
+  .download-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .download-button:hover {
+    background-color: #007c69;
+    transform: scale(1.05);
+  }
+  
+  .bg-secondary {
+    background-color: var(--secondary-color);
+  }
+  
+  .text-primary {
+    color: var(--primary-color);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .two-column-layout {
+      flex-direction: column;
+    }
+  
+    .modules-section {
+      padding-right: 0;
+      margin-bottom: 50px;
+    }
+  
+    .side-content {
+      position: static;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header h1 {
+      font-size: 2.5rem;
+    }
+  
+    .header p {
+      font-size: 1rem;
+    }
+  
+    .modalities-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .module {
+      flex-direction: column;
+    }
+  
+    .module-icon {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+  }
