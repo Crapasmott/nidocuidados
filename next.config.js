@@ -1,11 +1,24 @@
 // next.config.js
-module.exports = {
-    async rewrites() {
-        return [
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: {
+        remotePatterns: [
             {
-                source: '/wp-api/:path*',
-                destination: 'https://blog.nidodecuidados.com/wp-json/:path*' // Reemplaza con tu URL de WordPress
-            }
-        ]
-    }
+                protocol: 'https',
+                hostname: 'blog.nidodecuidados.com',
+                port: '',
+                pathname: '/wp-content/uploads/**',
+            },
+            // Si necesitas otros dominios de imágenes, agrégalos aquí
+            {
+                protocol: 'https',
+                hostname: 'via.placeholder.com',
+                port: '',
+                pathname: '/**',
+            },
+        ],
+    },
+    // Otras configuraciones si las tienes
 }
+
+module.exports = nextConfig
