@@ -183,7 +183,7 @@ export default function PrenatalPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.6 }}
         >
-          <a href="">@nido_de_cuidados</a> | <a href="">www.nido.com</a>
+          <a href="">@nido_de_cuidados</a> | <a href="">www.nidodecuidados.com</a>
         </motion.div>
       </header>
 

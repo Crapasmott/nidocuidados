@@ -111,6 +111,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://nidodecuidados.com',
   },
+  other: {
+    'theme-color': '#00927c',
+    'msapplication-TileColor': '#00927c',
+  },
 };
 
 export default function RootLayout({
@@ -124,17 +128,32 @@ export default function RootLayout({
       className={`${montserrat.variable} ${playfair.variable} scroll-smooth`} 
       suppressHydrationWarning
     >
-      <head>
-        <meta name="theme-color" content="#00927c" />
-        <meta name="msapplication-TileColor" content="#00927c" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00927c" />
+      <body className={montserrat.className} suppressHydrationWarning>
+        {/* Font Awesome */}
+        <Script 
+          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+          strategy="afterInteractive"
+        />
         
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+        {/* Google Analytics */}
+        <Script 
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XXXXXXXXXX');
+          `}
+        </Script>
         
-        <script
+        {/* Schema.org JSON-LD */}
+        <Script
+          id="json-ld"
           type="application/ld+json"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -182,25 +201,6 @@ export default function RootLayout({
             })
           }}
         />
-      </head>
-      <body className={montserrat.className} suppressHydrationWarning>
-        <Script 
-          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
-          strategy="afterInteractive"
-        />
-        
-        <Script 
-          src="https://www.googletagmanager.com/gtag/js?id=G-568PQ9PN"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XXXXXXXXXX');
-          `}
-        </Script>
         
         <Navbar />
         <main className="pt-16">
