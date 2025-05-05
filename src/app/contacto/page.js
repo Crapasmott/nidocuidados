@@ -1,26 +1,41 @@
-// src/app/contacto/page.jsx
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import Footer from '../components/Footer'; // Importamos el componente Footer
+import Footer from '../components/Footer';
 
 export default function ContactoPage() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: false, threshold: 0.2 });
     const controls = useAnimation();
 
+    // Número de WhatsApp
+    const whatsappNumber = "573332358135";
+
     const [formData, setFormData] = useState({
         firstname: '',
         lastname: '',
         phone: '',
         email: '',
+        service: '',
         message: ''
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
+
+    // Lista de servicios disponibles
+    const services = [
+        { id: 'agendar-cita', name: 'Agendar una cita' },
+        { id: 'curso-prenatal', name: 'Curso prenatal' },
+        { id: 'cuidados-postparto', name: 'Cuidados postparto' },
+        { id: 'asesoria-lactancia', name: 'Asesoría en lactancia' },
+        { id: 'asesoria-anticoncepcion', name: 'Asesoría en anticoncepción' },
+        { id: 'retiro-implante', name: 'Retiro de implante subdérmico' },
+        { id: 'informacion-general', name: 'Información general' },
+        { id: 'otro', name: 'Otro servicio' }
+    ];
 
     useEffect(() => {
         if (isInView) {
@@ -28,24 +43,7 @@ export default function ContactoPage() {
         }
     }, [isInView, controls]);
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.5 }
-        }
-    };
+    // ELIMINA ESTA LÍNEA -> export default function ContactoPage() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,38 +54,60 @@ export default function ContactoPage() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulación de envío
         try {
-            // Aquí iría tu código para enviar el formulario
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Obtener el nombre del servicio seleccionado
+            const servicioSeleccionado = services.find(s => s.id === formData.service)?.name || 'No especificado';
+
+            // Crear el mensaje para WhatsApp
+            let message = `*Consulta desde Página de Contacto*\n\n`;
+            message += `*Nombre:* ${formData.firstname}\n`;
+            message += `*Apellidos:* ${formData.lastname}\n`;
+            message += `*Teléfono:* ${formData.phone || 'No proporcionado'}\n`;
+            message += `*Email:* ${formData.email}\n`;
+            message += `*Servicio de interés:* ${servicioSeleccionado}\n`;
+            message += `*Mensaje:*\n${formData.message}`;
+
+            // Codificar el mensaje para URL
+            const encodedMessage = encodeURIComponent(message);
+
+            // Crear la URL de WhatsApp
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+            // Abrir WhatsApp
+            window.open(whatsappUrl, '_blank');
+
             setSubmitStatus('success');
-            // Resetear formulario
-            setFormData({
-                firstname: '',
-                lastname: '',
-                phone: '',
-                email: '',
-                message: ''
-            });
+
+            // Resetear el formulario después de 3 segundos
+            setTimeout(() => {
+                setFormData({
+                    firstname: '',
+                    lastname: '',
+                    phone: '',
+                    email: '',
+                    service: '',
+                    message: ''
+                });
+                setSubmitStatus(null);
+            }, 3000);
+
         } catch (error) {
+            console.error('Error:', error);
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);
-            // Resetear el estado después de 5 segundos
-            setTimeout(() => setSubmitStatus(null), 5000);
         }
     };
 
     return (
         <div className="w-full">
             {/* Banner Section */}
-            {/* Banner Section */}
             <div className="sub-banner-section">
                 <section className="relative h-[500px]">
                     {/* Imagen de fondo */}
                     <div className="absolute inset-0 z-0">
                         <Image
-                            src="/images/contacto-banner.jpg" // Asegúrate de tener esta imagen
+                            src="/images/blog.jpg"
                             alt="Contacto Nido de Cuidados"
                             fill
                             className="object-cover brightness-50"
@@ -197,6 +217,25 @@ export default function ContactoPage() {
                                             />
                                         </div>
                                     </div>
+
+                                    {/* Campo de selección de servicio */}
+                                    <div className="form-group mb-4">
+                                        <select
+                                            name="service"
+                                            value={formData.service}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent appearance-none bg-white"
+                                            required
+                                        >
+                                            <option value="">Selecciona un servicio</option>
+                                            {services.map(service => (
+                                                <option key={service.id} value={service.id}>
+                                                    {service.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
                                     <div className="form-group mb-6">
                                         <textarea
                                             rows="5"
@@ -216,15 +255,15 @@ export default function ContactoPage() {
                                             className={`px-8 py-4 rounded-full text-white font-medium text-lg transition-all duration-300 ${isSubmitting ? 'bg-gray-400' : 'bg-[#00927c] hover:bg-[#007c69] transform hover:scale-105 hover:shadow-lg'
                                                 }`}
                                         >
-                                            {isSubmitting ? 'Enviando...' : 'Empezar'}
+                                            {isSubmitting ? 'Abriendo WhatsApp...' : 'Enviar por WhatsApp'}
                                         </button>
 
                                         {submitStatus === 'success' && (
-                                            <p className="mt-4 text-green-600">¡Mensaje enviado con éxito! Te responderemos a la brevedad.</p>
+                                            <p className="mt-4 text-green-600">¡Redirigiendo a WhatsApp!</p>
                                         )}
 
                                         {submitStatus === 'error' && (
-                                            <p className="mt-4 text-red-600">Hubo un problema al enviar tu mensaje. Por favor, intenta nuevamente.</p>
+                                            <p className="mt-4 text-red-600">Hubo un problema. Por favor, intenta nuevamente.</p>
                                         )}
                                     </div>
                                 </form>
@@ -247,7 +286,7 @@ export default function ContactoPage() {
                                             <h3 className="text-xl font-semibold">Ubicación</h3>
                                         </div>
                                     </div>
-                                    <p className="pl-16 text-gray-600">Calle 116 b # 74 a -30 Barrio Gran Granada Bogotá</p>
+                                    <p className="pl-16 text-gray-600">Calle 116 b # 84 a -30 Barrio Gran Granada Bogotá</p>
                                 </div>
 
                                 <div className="bg-white p-6 rounded-lg shadow-md">
@@ -260,7 +299,7 @@ export default function ContactoPage() {
                                         </div>
                                     </div>
                                     <p className="pl-16 text-gray-600">
-                                        <a href="tel:3161030924" className="hover:text-[#00927c] transition-colors">3161030924</a>
+                                        <a href="tel:3332358135" className="hover:text-[#00927c] transition-colors">3332358135</a>
                                     </p>
                                 </div>
 
@@ -274,7 +313,7 @@ export default function ContactoPage() {
                                         </div>
                                     </div>
                                     <div className="pl-16 text-gray-600">
-                                        <p><a href="mailto:nicocuidados@gmail.com" className="hover:text-[#00927c] transition-colors">nicocuidados@gmail.com</a></p>
+                                        <p><a href="mailto:nicocuidados@gmail.com" className="hover:text-[#00927c] transition-colors">gerencia@nidodecuidaos.com</a></p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -295,51 +334,6 @@ export default function ContactoPage() {
                     referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
             </div>
-
-            {/* Subscribe Section */}
-            <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="bg-[#00927c]/5 rounded-lg p-8">
-                        <div className="grid md:grid-cols-5 gap-8 items-center">
-                            <div className="md:col-span-3">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.7 }}
-                                >
-                                    <h5 className="text-[#00927c] uppercase tracking-wider text-sm font-medium mb-2">Suscríbete ahora</h5>
-                                    <h2 className="text-3xl font-bold mb-6">Manténgase al día con nuestro boletín</h2>
-                                    <form className="flex flex-col md:flex-row gap-4">
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            className="flex-grow px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent"
-                                            placeholder="Escriba tu dirección de correo electrónico"
-                                            required
-                                        />
-                                        <button
-                                            type="submit"
-                                            className="px-6 py-3 bg-[#00927c] text-white rounded-full font-medium hover:bg-[#007c69] transition-all duration-300 transform hover:scale-105"
-                                        >
-                                            Suscríbete
-                                        </button>
-                                    </form>
-                                </motion.div>
-                            </div>
-                            <div className="md:col-span-2">
-                                <div className="relative h-64 w-full">
-                                    <Image
-                                        src="/images/subscribe_image.png"
-                                        alt="Suscríbete a nuestro boletín"
-                                        fill
-                                        className="object-contain"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* Footer */}
             <Footer />

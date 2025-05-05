@@ -20,6 +20,9 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
+  // Número de WhatsApp (reemplaza con el número real)
+  const whatsappNumber = "573332358135"; // Formato: código del país + número sin espacios ni caracteres especiales
+
   useEffect(() => {
     if (isInView) {
       controls.start('visible');
@@ -54,25 +57,54 @@ export default function ContactSection() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulación de envío
     try {
-      // Aquí iría tu código para enviar el formulario
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Crear el mensaje para WhatsApp
+      let message = `Nuevo mensaje de contacto\n\n`;
+      message += `Nombre: ${formData.nombre}\n`;
+      message += `Email: ${formData.email}\n`;
+      message += `Teléfono: ${formData.telefono || 'No proporcionado'}\n`;
+      
+      // Obtener el texto del servicio seleccionado
+      const servicioText = formData.servicios ? 
+        document.querySelector(`#servicios option[value="${formData.servicios}"]`)?.textContent || formData.servicios
+        : 'No especificado';
+      
+      message += `Servicio de interés: ${servicioText}\n`;
+      message += `Mensaje:\n${formData.mensaje}`;
+      
+      // Codificar el mensaje para URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // URL de WhatsApp
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+      
+      // Debug
+      console.log('WhatsApp URL:', whatsappUrl);
+      console.log('Mensaje:', message);
+      
+      // Abrir WhatsApp
+      window.open(whatsappUrl, '_blank');
+      
+      // Mostrar mensaje de éxito
       setSubmitStatus('success');
-      // Resetear formulario
-      setFormData({
-        nombre: '',
-        email: '',
-        telefono: '',
-        mensaje: '',
-        servicios: '',
-      });
+      
+      // Resetear el formulario
+      setTimeout(() => {
+        setFormData({
+          nombre: '',
+          email: '',
+          telefono: '',
+          mensaje: '',
+          servicios: '',
+        });
+        setSubmitStatus(null);
+      }, 3000);
+      
     } catch (error) {
+      console.error('Error al abrir WhatsApp:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
-      // Resetear el estado después de 5 segundos
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
@@ -87,7 +119,7 @@ export default function ContactSection() {
       icon: "phone",
       title: "Teléfono",
       content: "(+57) 123 456 7890",
-      link: "tel:+5712345678"
+      link: "tel:+571234567890"
     },
     {
       icon: "email",
@@ -265,18 +297,18 @@ export default function ContactSection() {
                         : 'bg-[#00927c] hover:bg-[#007c69] transform hover:scale-[1.02]'
                     }`}
                   >
-                    {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
+                    {isSubmitting ? 'Abriendo WhatsApp...' : 'Enviar por WhatsApp'}
                   </button>
                   
                   {submitStatus === 'success' && (
                     <p className="mt-4 text-green-600 text-center">
-                      ¡Mensaje enviado con éxito! Te responderemos a la brevedad.
+                      ¡Redirigiendo a WhatsApp! Tu mensaje está listo para enviar.
                     </p>
                   )}
                   
                   {submitStatus === 'error' && (
                     <p className="mt-4 text-red-600 text-center">
-                      Hubo un problema al enviar tu mensaje. Por favor, intenta nuevamente.
+                      Hubo un problema al abrir WhatsApp. Por favor, intenta nuevamente.
                     </p>
                   )}
                 </motion.div>

@@ -79,7 +79,6 @@ export default function NosotrosPage() {
             ]
         }
     ];
-
     // Renderiza iconos sociales
     const renderSocialIcon = (icon) => {
         switch (icon) {
@@ -111,7 +110,6 @@ export default function NosotrosPage() {
                 return null;
         }
     };
-
     return (
         <div className="w-full">
             {/* Hero Banner - Imagen 1 */}
@@ -132,16 +130,16 @@ export default function NosotrosPage() {
                         travesía.
                     </p>
                     <div className="mt-8 flex space-x-4 animate-bounce-slow">
-                        <a href="/" className="px-6 py-3 bg-[#00927c] hover:bg-[#007c69] rounded-full transition-colors transform hover:scale-105 duration-300">
-                            Inicio
-                        </a>
-                        <a href="/#servicios" className="px-6 py-3 bg-[#00927c] hover:bg-[#007c69] rounded-full transition-colors transform hover:scale-105 duration-300">
-                            Servicios
-                        </a>
+                    <Link href="/inicio" className="px-6 py-3 bg-[#00927c] hover:bg-[#007c69] rounded-full transition-colors duration-300 transform hover:scale-105">
+  Inicio
+</Link>
+<Link href="/#servicios" className="px-6 py-3 bg-[#00927c] hover:bg-[#007c69] rounded-full transition-colors duration-300 transform hover:scale-105">
+Servicios
+</Link>
+                       
                     </div>
                 </div>
             </div>
-
             {/* Estructura principal */}
             <div className="container mx-auto px-4 py-16">
                 {/* Sobre Nosotros - Título */}
@@ -213,14 +211,14 @@ export default function NosotrosPage() {
                         </div>
                     </div>
                 </div>
-
                 {/* Nuestros Valores */}
                 <div className="mb-16">
                     <h3 className="text-2xl font-playfair text-center mb-10">Nuestros Valores</h3>
                     <div className="grid md:grid-cols-3 gap-8">
                         <div className="bg-white p-6 rounded-lg shadow-sm text-center transform transition duration-300 hover:shadow-lg hover:-translate-y-1">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#00927c]/10 flex items-center justify-center">
-                                <span className="text-[#00927c]">•</span>
+                                <Image src="/images/iconos/respeto.png" alt="Respeto" width={80} height={80}
+                                    className="object-cover object-center" />
                             </div>
                             <h4 className="text-xl font-semibold mb-2">Respeto</h4>
                             <p className="text-gray-600">Honramos las decisiones y el proceso único de cada mujer y familia.</p>
@@ -228,7 +226,8 @@ export default function NosotrosPage() {
 
                         <div className="bg-white p-6 rounded-lg shadow-sm text-center transform transition duration-300 hover:shadow-lg hover:-translate-y-1">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#00927c]/10 flex items-center justify-center">
-                                <span className="text-[#00927c]">•</span>
+                                <Image src="/images/iconos/empatia.png" alt="Empatía" width={80} height={80}
+                                    className="object-cover object-center" />
                             </div>
                             <h4 className="text-xl font-semibold mb-2">Empatía</h4>
                             <p className="text-gray-600">Acompañamos desde la comprensión profunda de las necesidades emocionales.</p>
@@ -236,23 +235,26 @@ export default function NosotrosPage() {
 
                         <div className="bg-white p-6 rounded-lg shadow-sm text-center transform transition duration-300 hover:shadow-lg hover:-translate-y-1">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#00927c]/10 flex items-center justify-center">
-                                <span className="text-[#00927c]">•</span>
+                                <Image src="/images/iconos/conocimiento.png" alt="Conocimiento" width={80} height={80}
+                                    className="object-cover object-center" />
                             </div>
-                            <h4 className="text-xl font-semibold mb-2">Evidencia</h4>
+                            <h4 className="text-xl font-semibold mb-2">Conocimiento</h4>
                             <p className="text-gray-600">Basamos nuestras prácticas en la mejor evidencia científica disponible.</p>
                         </div>
 
                         <div className="bg-white p-6 rounded-lg shadow-sm text-center transform transition duration-300 hover:shadow-lg hover:-translate-y-1">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#00927c]/10 flex items-center justify-center">
-                                <span className="text-[#00927c]">•</span>
+                                <Image src="/images/iconos/cuidado.png" alt="Cuidado" width={80} height={80}
+                                    className="object-cover object-center" />
                             </div>
-                            <h4 className="text-xl font-semibold mb-2">Integridad</h4>
-                            <p className="text-gray-600">Actuamos con honestidad y coherencia en todas nuestras intervenciones.</p>
+                            <h4 className="text-xl font-semibold mb-2">Cuidado</h4>
+                            <p className="text-gray-600">Brindamos atención integral y personalizada en cada etapa del proceso maternal.</p>
                         </div>
 
                         <div className="bg-white p-6 rounded-lg shadow-sm text-center transform transition duration-300 hover:shadow-lg hover:-translate-y-1">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#00927c]/10 flex items-center justify-center">
-                                <span className="text-[#00927c]">•</span>
+                                <Image src="/images/iconos/comunidad.png" alt="Comunidad" width={80} height={80}
+                                    className="object-cover object-center" />
                             </div>
                             <h4 className="text-xl font-semibold mb-2">Comunidad</h4>
                             <p className="text-gray-600">Creamos redes de apoyo que sostienen y nutren a las familias.</p>
@@ -260,14 +262,14 @@ export default function NosotrosPage() {
 
                         <div className="bg-white p-6 rounded-lg shadow-sm text-center transform transition duration-300 hover:shadow-lg hover:-translate-y-1">
                             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[#00927c]/10 flex items-center justify-center">
-                                <span className="text-[#00927c]">•</span>
+                                <Image src="/images/iconos/inclusion.png" alt="Inclusión" width={80} height={80}
+                                    className="object-cover object-center" />
                             </div>
                             <h4 className="text-xl font-semibold mb-2">Inclusión</h4>
                             <p className="text-gray-600">Acogemos a todas las familias en su diversidad y unicidad.</p>
                         </div>
                     </div>
                 </div>
-
                 {/* Nuestro Equipo */}
                 <div className="mb-16">
                     <h2 className="text-3xl font-playfair text-center mb-4">Nuestro Equipo de Expertas</h2>
@@ -383,7 +385,6 @@ export default function NosotrosPage() {
                             </div>
                         </div>
                     </div>
-
                     {/* Miembros del equipo */}
                     <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                         <div
@@ -407,9 +408,7 @@ export default function NosotrosPage() {
                                 <p className="text-gray-700 mb-4">
                                     Egresada de la FUJNC y diplomada en Atención Primaria en Salud. Apasionada por la lactancia materna y el cuidado integral del lactante, mi objetivo es promover el bienestar con estrategias educativas.
                                 </p>
-                                <a href="/especialistas/natalia" className="inline-block px-6 py-2 mt-2 bg-[#00927c] text-white rounded-full hover:bg-[#007c69] transition-all duration-300 transform hover:scale-105">
-                                    Conoce más sobre mí
-                                </a>
+
                             </div>
                         </div>
 
@@ -434,14 +433,10 @@ export default function NosotrosPage() {
                                 <p className="text-gray-700 mb-4">
                                     Magíster en Psicología Clínica. Te brindo un espacio seguro para afrontar maternidad, cambios de pareja y duelos perinatales.
                                 </p>
-                                <a href="/especialistas/laura" className="inline-block px-6 py-2 mt-2 bg-[#00927c] text-white rounded-full hover:bg-[#007c69] transition-all duration-300 transform hover:scale-105">
-                                    Conoce más sobre mí
-                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 {/* Certificaciones */}
                 <div className="mb-16">
                     <div className="text-center mb-8">
@@ -456,11 +451,49 @@ export default function NosotrosPage() {
                     </div>
 
                     <div className="flex flex-wrap justify-center items-center gap-8">
-                        {[1, 2, 3, 4, 5, 6].map((num) => (
-                            <div key={num} className="transform transition-all duration-300 hover:scale-110">
-                                <Image src={`/images/cert${num}.png`} alt={`Certificación ${num}`} width={100} height={50} />
-                            </div>
-                        ))}
+                        {/* FUCS - Primera certificación */}
+                        <div className="transform transition-all duration-300 hover:scale-110">
+                            <Image
+                                src="/images/certificado1.jpg"
+                                alt="Fundación Universitaria de Ciencias de la Salud - FUCS"
+                                width={200}
+                                height={80}
+                                className="object-contain"
+                            />
+                        </div>
+
+                        {/* FUCS - Segunda certificación (duplicada) */}
+                        <div className="transform transition-all duration-300 hover:scale-110">
+                            <Image
+                                src="/images/sabana.jpg"
+                                alt="Fundación Universitaria de Ciencias de la Salud - FUCS"
+                                width={200}
+                                height={80}
+                                className="object-contain"
+                            />
+                        </div>
+
+                        {/* Universidad de La Sabana */}
+                        <div className="transform transition-all duration-300 hover:scale-110">
+                            <Image
+                                src="/images/sanitas.jpg"
+                                alt="Universidad de La Sabana"
+                                width={200}
+                                height={80}
+                                className="object-contain"
+                            />
+                        </div>
+
+                        {/* Unisanitas */}
+                        <div className="transform transition-all duration-300 hover:scale-110">
+                            <Image
+                                src="/images/antu.jpg"
+                                alt="Unisanitas"
+                                width={200}
+                                height={80}
+                                className="object-contain"
+                            />
+                        </div>
                     </div>
 
                     {/* Llamada a la acción final */}
@@ -471,7 +504,6 @@ export default function NosotrosPage() {
                     </div>
                 </div>
             </div>
-
             {/* Footer */}
             <footer className="bg-[#00927c] text-white py-16">
                 <div className="container mx-auto px-4">

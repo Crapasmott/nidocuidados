@@ -12,6 +12,9 @@ export default function PrenatalPage() {
   const isInView = useInView(ref, { once: false, threshold: 0.2 });
   const controls = useAnimation();
 
+  // Número de WhatsApp
+  const whatsappNumber = "573332358135"; // Reemplaza con el número real
+
   useEffect(() => {
     if (isInView) {
       controls.start('visible');
@@ -39,28 +42,115 @@ export default function PrenatalPage() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulación de envío
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Crear el mensaje para WhatsApp
+      let message = `*Consulta desde Curso Prenatal*\n\n`;
+      message += `*Nombre:* ${formData.fname}\n`;
+      message += `*Apellidos:* ${formData.lname}\n`;
+      message += `*Teléfono:* ${formData.phonenum || 'No proporcionado'}\n`;
+      message += `*Email:* ${formData.emailaddrs}\n`;
+      message += `*Mensaje:*\n${formData.msg}`;
+      
+      // Codificar el mensaje para URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Crear la URL de WhatsApp
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+      
+      // Abrir WhatsApp
+      window.open(whatsappUrl, '_blank');
+      
       setSubmitStatus('success');
-      setFormData({
-        fname: '',
-        lname: '',
-        phonenum: '',
-        emailaddrs: '',
-        msg: ''
-      });
+      
+      // Resetear el formulario después de 3 segundos
+      setTimeout(() => {
+        setFormData({
+          fname: '',
+          lname: '',
+          phonenum: '',
+          emailaddrs: '',
+          msg: ''
+        });
+        setSubmitStatus(null);
+      }, 3000);
+      
     } catch (error) {
+      console.error('Error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
+  const modules = [
+    {
+      number: 1,
+      title: "Reconociendo mi cuerpo, mis emociones y mi nueva familia",
+      content: "Introducción al curso: Derechos de la familia gestante, emociones y sentimientos y el rol de la familia en la gestación, cambios emocionales durante la gestación, Manejo de síntomas frecuentes; Signos de alarma. Desarrollo del embarazo por trimestre.",
+      icon: "🤰",
+      color: "from-pink-500 to-rose-500"
+    },
+    {
+      number: 2,
+      title: "Me alimento conscientemente y mi cuerpo se prepara para recibirte",
+      content: "Nutrición durante la gestación y la lactancia. Suplementación con micronutrientes; Dieta adecuada para el embarazo; Mitos y creencias sobre la alimentación durante el embarazo ¿Alimentos prohibidos?; Higiene postural.",
+      icon: "🥗",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      number: 3,
+      title: "Me muevo y Cuido mi piso pélvico",
+      content: "La importancia de cuidar el suelo pélvico durante y después del embarazo, a través de ejercicios adecuados y la práctica de actividad física segura que favorezca la recuperación y la prevención de problemas en esta área.",
+      icon: "🧘‍♀️",
+      color: "from-purple-500 to-indigo-500"
+    },
+    {
+      number: 4,
+      title: "De la Espera al Encuentro: La Aventura del Parto",
+      content: "Trabajo de parto y parto, cascada hormonal, cesárea, episiotomía, desgarro, signos de alarma, elementos para llevar a la atención de parto y cuando debo ir al hospital.",
+      icon: "🏥",
+      color: "from-blue-500 to-cyan-500"
+    },
+    {
+      number: 5,
+      title: "El Dulce Río de Amor: Tu Viaje en la Lactancia Materna",
+      content: "Lactancia materna exclusiva, posiciones para lactar, pautas para una lactancia materna exitosa, señales de alerta durante la lactancia materna, conservación de lactancia materna.",
+      icon: "🤱",
+      color: "from-orange-500 to-amber-500"
+    },
+    {
+      number: 6,
+      title: "Renaciendo en tu Nuevo Cuerpo: Postparto",
+      content: "Te guiaremos sobre los cambios fisiológicos y psicológicos durante el postparto, signos y síntomas de alarma en la usuaria y en el recién nacido.",
+      icon: "✨",
+      color: "from-teal-500 to-emerald-500"
+    },
+    {
+      number: 7,
+      title: "Tu viaje hacia la maternidad experta: Cuidando a nuestro bebé",
+      content: "Sabemos que los primeros días con tu bebé pueden ser desafiantes, es por eso te entrenaremos en los cuidados básicos de tu recién nacido.",
+      icon: "👶",
+      color: "from-pink-500 to-red-500"
+    },
+    {
+      number: 8,
+      title: "Amor desde el primer latido: Forjando un vínculo inquebrantable",
+      content: "Contaremos con charlas con profesionales que te brindarán una orientación sobre el desarrollo emocional y psicológico del bebé y la importancia de la interacción y el vínculo afectivo.",
+      icon: "❤️",
+      color: "from-red-500 to-pink-500"
+    },
+    {
+      number: 9,
+      title: "Educación para la salud y el bienestar familiar",
+      content: "Hablaremos sobre la importancia de establecer rutinas familiares saludables: Organización del tiempo con el bebé, Alimentación complementaria y actividad física.",
+      icon: "👨‍👩‍👧",
+      color: "from-indigo-500 to-purple-500"
+    }
+  ];
+
   return (
     <div className="w-full">
-      {/* Header/Banner section */}
+      {/* Header/Banner section - SIN CAMBIOS */}
       <header className="header">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
@@ -97,7 +187,7 @@ export default function PrenatalPage() {
         </motion.div>
       </header>
 
-      {/* Modalidades section */}
+      {/* Modalidades section - SIN CAMBIOS */}
       <section id="modalidades" className="modalities">
         <motion.h2
           className="text-center mb-8"
@@ -199,10 +289,10 @@ export default function PrenatalPage() {
 
       {/* Two column layout section */}
       <div className="two-column-layout">
-        {/* Columna de Módulos */}
+        {/* Columna de Módulos - ACTUALIZADA SOLO ESTA PARTE */}
         <section className="modules-section">
           <motion.h2
-            className="text-center mb-4"
+            className="text-center mb-8 text-3xl font-bold"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
@@ -210,71 +300,49 @@ export default function PrenatalPage() {
             Contenido del Curso
           </motion.h2>
 
-          {/* Módulos del curso */}
-          {[
-            {
-              number: 1,
-              title: "Reconociendo mi cuerpo, mis emociones y mi nueva familia",
-              content: "Introducción al curso: Derechos de la familia gestante, emociones y sentimientos y el rol de la familia en la gestación, cambios emocionales durante la gestación, Manejo de síntomas frecuentes; Signos de alarma. Desarrollo del embarazo por trimestre."
-            },
-            {
-              number: 2,
-              title: "Me alimento conscientemente y mi cuerpo se prepara para recibirte",
-              content: "Nutrición durante la gestación y la lactancia. Suplementación con micronutrientes; Dieta adecuada para el embarazo; Mitos y creencias sobre la alimentación durante el embarazo ¿Alimentos prohibidos?; Higiene postural."
-            },
-            {
-              number: 3,
-              title: "Me muevo y Cuido mi piso pélvico",
-              content: "La importancia de cuidar el suelo pélvico durante y después del embarazo, a través de ejercicios adecuados y la práctica de actividad física segura que favorezca la recuperación y la prevención de problemas en esta área."
-            },
-            {
-              number: 4,
-              title: "De la Espera al Encuentro: La Aventura del Parto",
-              content: "Trabajo de parto y parto, cascada hormonal, cesárea, episiotomía, desgarro, signos de alarma, elementos para llevar a la atención de parto y cuando debo ir al hospital."
-            },
-            {
-              number: 5,
-              title: "El Dulce Río de Amor: Tu Viaje en la Lactancia Materna",
-              content: "Lactancia materna exclusiva, posiciones para lactar, pautas para una lactancia materna exitosa, señales de alerta durante la lactancia materna, conservación de lactancia materna."
-            },
-            {
-              number: 6,
-              title: "Renaciendo en tu Nuevo Cuerpo: Postparto",
-              content: "Te guiaremos sobre los cambios fisiológicos y psicológicos durante el postparto, signos y síntomas de alarma en la usuaria y en el recién nacido."
-            },
-            {
-              number: 7,
-              title: "Tu viaje hacia la maternidad experta: Cuidando a nuestro bebé",
-              content: "Sabemos que los primeros días con tu bebé pueden ser desafiantes, es por eso te entrenaremos en los cuidados básicos de tu recién nacido."
-            },
-            {
-              number: 8,
-              title: "Amor desde el primer latido: Forjando un vínculo inquebrantable",
-              content: "Contaremos con charlas con profesionales que te brindarán una orientación sobre el desarrollo emocional y psicológico del bebé y la importancia de la interacción y el vínculo afectivo."
-            },
-            {
-              number: 9,
-              title: "Educación para la salud y el bienestar familiar",
-              content: "Hablaremos sobre la importancia de establecer rutinas familiares saludables: Organización del tiempo con el bebé, Alimentación complementaria y actividad física."
-            }
-          ].map((module, index) => (
-            <motion.div 
-              key={index}
-              className="module"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 * index }}
-            >
-              <div className="module-icon">{module.number}</div>
-              <div>
-                <h3>{module.title}</h3>
-                <p>{module.content}</p>
-              </div>
-            </motion.div>
-          ))}
+          {/* Módulos del curso en tarjetas */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {modules.map((module, index) => (
+              <motion.div
+                key={module.number}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+              >
+                <div className={`h-2 bg-gradient-to-r ${module.color}`} />
+                <div className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-2xl">{module.icon}</span>
+                    </div>
+                    <div className="w-10 h-10 bg-[#00927c] rounded-full flex items-center justify-center text-white font-bold">
+                      {module.number}
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold mb-3 text-gray-800">
+                    {module.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                    {module.content}
+                  </p>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full bg-[#00927c] text-white py-2 px-4 rounded-full text-sm font-medium hover:bg-[#007c69] transition-colors"
+                    onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    Más información
+                  </motion.button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </section>
 
-        {/* Columna de Descarga */}
+        {/* Columna de Descarga - SIN CAMBIOS */}
         <motion.aside 
           className="side-content"
           initial={{ opacity: 0, x: 30 }}
@@ -308,8 +376,8 @@ export default function PrenatalPage() {
         </motion.aside>
       </div>
 
-      {/* Contact form section */}
-      <section className="subscribe_section py-16">
+      {/* Contact form section - ACTUALIZADO PARA WHATSAPP */}
+      <section id="contact-form" className="subscribe_section py-16">
         <div className="container mx-auto px-4">
           <div className="bg-gray-50 rounded-lg p-8">
             <div className="grid md:grid-cols-12 gap-8">
@@ -390,15 +458,15 @@ export default function PrenatalPage() {
                           isSubmitting ? 'bg-gray-400' : 'bg-[#00927c] hover:bg-[#007c69] transform hover:scale-105 hover:shadow-lg'
                         }`}
                       >
-                        {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
+                        {isSubmitting ? 'Abriendo WhatsApp...' : 'Enviar por WhatsApp'}
                       </button>
                       
                       {submitStatus === 'success' && (
-                        <p className="mt-4 text-green-600">¡Mensaje enviado con éxito! Te responderemos a la brevedad.</p>
+                        <p className="mt-4 text-green-600">¡Redirigiendo a WhatsApp!</p>
                       )}
                       
                       {submitStatus === 'error' && (
-                        <p className="mt-4 text-red-600">Hubo un problema al enviar tu mensaje. Por favor, intenta nuevamente.</p>
+                        <p className="mt-4 text-red-600">Hubo un problema. Por favor, intenta nuevamente.</p>
                       )}
                     </div>
                   </form>

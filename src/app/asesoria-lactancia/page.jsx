@@ -12,6 +12,70 @@ export default function AsesoriaLactanciaPage() {
   const isInView = useInView(ref, { once: false, threshold: 0.2 });
   const controls = useAnimation();
 
+  // Número de WhatsApp
+  const whatsappNumber = "573332358135"; // Reemplaza con tu número real
+
+  // Estados para el formulario
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellidos: '',
+    movil: '',
+    email: '',
+    mensaje: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // Crear el mensaje para WhatsApp
+      let message = `*Consulta desde Asesoría de Lactancia*\n\n`;
+      message += `*Nombre:* ${formData.nombre}\n`;
+      message += `*Apellidos:* ${formData.apellidos}\n`;
+      message += `*Móvil:* ${formData.movil || 'No proporcionado'}\n`;
+      message += `*Email:* ${formData.email}\n`;
+      message += `*Mensaje:*\n${formData.mensaje}`;
+      
+      // Codificar el mensaje para URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Crear la URL de WhatsApp
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+      
+      // Abrir WhatsApp
+      window.open(whatsappUrl, '_blank');
+      
+      setSubmitStatus('success');
+      
+      // Resetear el formulario después de 3 segundos
+      setTimeout(() => {
+        setFormData({
+          nombre: '',
+          apellidos: '',
+          movil: '',
+          email: '',
+          mensaje: ''
+        });
+        setSubmitStatus(null);
+      }, 3000);
+      
+    } catch (error) {
+      console.error('Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Para observar elementos para animaciones de fade-in
   const observeElements = () => {
     const fadeElements = document.querySelectorAll('.fade-in');
@@ -245,94 +309,111 @@ export default function AsesoriaLactanciaPage() {
         </div>
       </section>
 
-{/* Contact Section */}
-<section className="contact-section py-24 bg-gray-50" id="contacto">
-  <div className="container mx-auto px-4">
-    <div className="section-title mb-10">
-      <h2>Contacto</h2>
-    </div>
-
-    <div className="flex flex-col lg:flex-row gap-10 items-start">
-      <div className="w-full lg:w-2/3">
-        <h3 className="text-2xl font-semibold mb-6">Ponte en contacto con nosotras</h3>
-        
-        <div className="contact-form bg-white rounded-lg p-6 shadow-sm">
-          <form className="fade-in">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="form-group">
-                <input 
-                  type="text" 
-                  id="nombre" 
-                  placeholder="Nombre" 
-                  className="form-control w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" 
-                  required 
-                />
-              </div>
-              <div className="form-group">
-                <input 
-                  type="text" 
-                  id="apellidos" 
-                  placeholder="Apellidos" 
-                  className="form-control w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" 
-                  required 
-                />
-              </div>
+      {/* Contact Section - ACTUALIZADO SEGÚN LA IMAGEN */}
+      <section className="contact-section py-24 bg-gray-50" id="contacto">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center">
+            <div className="w-full lg:w-2/3 lg:pr-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">
+                Ponte en contacto con nosotras
+              </h2>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <input 
+                      type="text" 
+                      name="nombre"
+                      value={formData.nombre}
+                      onChange={handleChange}
+                      placeholder="Nombre" 
+                      className="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent text-lg" 
+                      required 
+                    />
+                  </div>
+                  <div>
+                    <input 
+                      type="text" 
+                      name="apellidos"
+                      value={formData.apellidos}
+                      onChange={handleChange}
+                      placeholder="Apellidos" 
+                      className="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent text-lg" 
+                      required 
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <input 
+                      type="tel" 
+                      name="movil"
+                      value={formData.movil}
+                      onChange={handleChange}
+                      placeholder="Móvil" 
+                      className="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent text-lg" 
+                    />
+                  </div>
+                  <div>
+                    <input 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Email" 
+                      className="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent text-lg" 
+                      required 
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <textarea 
+                    name="mensaje"
+                    value={formData.mensaje}
+                    onChange={handleChange}
+                    placeholder="Mensaje" 
+                    className="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent text-lg" 
+                    rows="5" 
+                    required
+                  ></textarea>
+                </div>
+                
+                <div className="mt-8">
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className={`bg-[#00927c] hover:bg-[#007c69] text-white font-medium py-4 px-10 rounded-full transition duration-300 text-lg ${
+                      isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {isSubmitting ? 'Abriendo WhatsApp...' : 'Enviar por WhatsApp'}
+                  </button>
+                  
+                  {submitStatus === 'success' && (
+                    <p className="mt-4 text-green-600 text-lg">¡Redirigiendo a WhatsApp!</p>
+                  )}
+                  
+                  {submitStatus === 'error' && (
+                    <p className="mt-4 text-red-600 text-lg">Hubo un problema. Por favor, intenta nuevamente.</p>
+                  )}
+                </div>
+              </form>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="form-group">
-                <input 
-                  type="tel" 
-                  id="movil" 
-                  placeholder="Móvil" 
-                  className="form-control w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" 
-                />
-              </div>
-              <div className="form-group">
-                <input 
-                  type="email" 
-                  id="email" 
-                  placeholder="Email" 
-                  className="form-control w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" 
-                  required 
-                />
-              </div>
+            <div className="w-full lg:w-1/3 mt-12 lg:mt-0">
+              <Image 
+                src="/images/madre-bebe.jpg" 
+                alt="Madre con bebé" 
+                width={500} 
+                height={600}
+                className="rounded-lg"
+              />
             </div>
-            
-            <div className="form-group mb-6">
-              <textarea 
-                id="mensaje" 
-                placeholder="Mensaje" 
-                className="form-control w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" 
-                rows="5" 
-                required
-              ></textarea>
-            </div>
-            
-            <div className="mt-4">
-              <button 
-                type="submit" 
-                className="bg-teal-500 hover:bg-teal-600 text-white font-medium py-3 px-8 rounded-full transition duration-300"
-              >
-                Enviar mensaje
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
-      
-      <div className="w-full lg:w-1/3">
-        <Image 
-          src="/images/madre-bebe.jpg" 
-          alt="Madre con bebé" 
-          width={400} 
-          height={400}
-          className="rounded-lg shadow-sm"
-        />
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Footer */}
       <Footer />

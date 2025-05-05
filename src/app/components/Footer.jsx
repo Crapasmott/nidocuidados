@@ -48,10 +48,10 @@ export default function Footer() {
     {
       title: 'Servicios',
       links: [
-        { text: 'Curso prenatal', url: '/servicios#curso-prenatal' },
-        { text: 'Cuidados postparto', url: '/servicios#cuidados-postparto' },
-        { text: 'Asesoría en lactancia', url: '/servicios#asesoria-lactancia' },
-        { text: 'Asesoría en anticoncepción', url: '/servicios#anticoncepcion' }
+        { text: 'Curso prenatal', url: 'prenatal' },
+        { text: 'Cuidados postparto', url: 'cuidados-postparto' },
+        { text: 'Asesoría en lactancia', url: 'asesoria-lactancia' },
+        { text: 'Asesoría en anticoncepción', url: 'anticoncepcion' }
       ]
     },
     {
@@ -60,7 +60,7 @@ export default function Footer() {
         { text: 'Nosotros', url: '/nosotros' },
         { text: 'Blog', url: '/blog' },
         { text: 'Testimonios', url: '/testimonios' },
-        { text: 'Profesionales', url: '/equipo' }
+        { text: 'Profesionales', url: '/#nosotros' }
       ]
     },
     {
@@ -69,7 +69,7 @@ export default function Footer() {
         { text: 'Reservar cita', url: '/contacto#reservar' },
         { text: 'Preguntas frecuentes', url: '/faq' },
         { text: 'Ubicación', url: '/contacto#ubicacion' },
-        { text: 'Teléfono: (01) 234-5678', url: 'tel:+5101234567' }
+        { text: 'Teléfono: 333 2358135', url: 'tel:+51333 2358135' }
       ]
     }
   ];
@@ -123,7 +123,7 @@ export default function Footer() {
           >
             <div className="mb-6">
               <Image 
-                src="/images/logo-white.png" 
+                src="/images/nido-logo.png" 
                 alt="Nido de Cuidados" 
                 width={180} 
                 height={60}

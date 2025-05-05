@@ -12,6 +12,9 @@ export default function CuidadosPostpartoPage() {
   const isInView = useInView(ref, { once: false, threshold: 0.2 });
   const controls = useAnimation();
 
+  // Número de WhatsApp
+  const whatsappNumber = "573332358135"; // Reemplaza con el número real
+
   useEffect(() => {
     if (isInView) {
       controls.start('visible');
@@ -42,22 +45,43 @@ export default function CuidadosPostpartoPage() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulación de envío
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Crear el mensaje para WhatsApp
+      let message = `*Consulta desde Cuidados Postparto*\n\n`;
+      message += `*Nombre:* ${formData.fname}\n`;
+      message += `*Apellidos:* ${formData.lname}\n`;
+      message += `*Teléfono:* ${formData.phonenum || 'No proporcionado'}\n`;
+      message += `*Email:* ${formData.emailaddrs}\n`;
+      message += `*Mensaje:*\n${formData.msg}`;
+      
+      // Codificar el mensaje para URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Crear la URL de WhatsApp
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+      
+      // Abrir WhatsApp
+      window.open(whatsappUrl, '_blank');
+      
       setSubmitStatus('success');
-      setFormData({
-        fname: '',
-        lname: '',
-        phonenum: '',
-        emailaddrs: '',
-        msg: ''
-      });
+      
+      // Resetear el formulario después de 3 segundos
+      setTimeout(() => {
+        setFormData({
+          fname: '',
+          lname: '',
+          phonenum: '',
+          emailaddrs: '',
+          msg: ''
+        });
+        setSubmitStatus(null);
+      }, 3000);
+      
     } catch (error) {
+      console.error('Error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
@@ -229,7 +253,7 @@ export default function CuidadosPostpartoPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.6 }}
         >
-          <a href="">@nido_de_cuidados</a> | <a href="">www.nido.com</a>
+          <a href="">@nidodecuidados</a> | <a href="">www.nidodecuidados.com</a>
         </motion.div>
       </header>
 
@@ -261,65 +285,65 @@ export default function CuidadosPostpartoPage() {
             Nuestros Servicios
           </motion.h2>
     
-<div className="services-grid">
-  {/* Primera fila - 3 primeros servicios */}
-  {services.slice(0, 3).map((service, index) => (
-    <motion.div
-      key={service.id}
-      className="service-card"
-      onClick={() => openModal(service.id)}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.1 * index }}
-      whileHover={{ y: -10, transition: { duration: 0.2 } }}
-    >
-      <div className="service-image">
-        <Image
-          src={service.image}
-          alt={service.title}
-          width={400}
-          height={300}
-          className="object-cover"
-        />
-      </div>
-      <div className="service-content">
-        <div className="service-icon">
-          <i className={service.icon}></i> {service.title}
-        </div>
-        <p>{service.shortDesc}</p>
-      </div>
-    </motion.div>
-  ))}
-  
-  {/* Segunda fila - 3 últimos servicios */}
-  {services.slice(3, 6).map((service, index) => (
-    <motion.div
-      key={service.id}
-      className="service-card"
-      onClick={() => openModal(service.id)}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4 + (0.1 * index) }}
-      whileHover={{ y: -10, transition: { duration: 0.2 } }}
-    >
-      <div className="service-image">
-        <Image
-          src={service.image}
-          alt={service.title}
-          width={400}
-          height={300}
-          className="object-cover"
-        />
-      </div>
-      <div className="service-content">
-        <div className="service-icon">
-          <i className={service.icon}></i> {service.title}
-        </div>
-        <p>{service.shortDesc}</p>
-      </div>
-    </motion.div>
-  ))}
-</div>
+          <div className="services-grid">
+            {/* Primera fila - 3 primeros servicios */}
+            {services.slice(0, 3).map((service, index) => (
+              <motion.div
+                key={service.id}
+                className="service-card"
+                onClick={() => openModal(service.id)}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+                whileHover={{ y: -10, transition: { duration: 0.2 } }}
+              >
+                <div className="service-image">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={400}
+                    height={300}
+                    className="object-cover"
+                  />
+                </div>
+                <div className="service-content">
+                  <div className="service-icon">
+                    <i className={service.icon}></i> {service.title}
+                  </div>
+                  <p>{service.shortDesc}</p>
+                </div>
+              </motion.div>
+            ))}
+            
+            {/* Segunda fila - 3 últimos servicios */}
+            {services.slice(3, 6).map((service, index) => (
+              <motion.div
+                key={service.id}
+                className="service-card"
+                onClick={() => openModal(service.id)}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 + (0.1 * index) }}
+                whileHover={{ y: -10, transition: { duration: 0.2 } }}
+              >
+                <div className="service-image">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={400}
+                    height={300}
+                    className="object-cover"
+                  />
+                </div>
+                <div className="service-content">
+                  <div className="service-icon">
+                    <i className={service.icon}></i> {service.title}
+                  </div>
+                  <p>{service.shortDesc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -438,15 +462,15 @@ export default function CuidadosPostpartoPage() {
                           isSubmitting ? 'bg-gray-400' : 'bg-[#00927c] hover:bg-[#007c69] transform hover:scale-105 hover:shadow-lg'
                         }`}
                       >
-                        {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
+                        {isSubmitting ? 'Abriendo WhatsApp...' : 'Enviar por WhatsApp'}
                       </button>
                       
                       {submitStatus === 'success' && (
-                        <p className="mt-4 text-green-600">¡Mensaje enviado con éxito! Te responderemos a la brevedad.</p>
+                        <p className="mt-4 text-green-600">¡Redirigiendo a WhatsApp!</p>
                       )}
                       
                       {submitStatus === 'error' && (
-                        <p className="mt-4 text-red-600">Hubo un problema al enviar tu mensaje. Por favor, intenta nuevamente.</p>
+                        <p className="mt-4 text-red-600">Hubo un problema. Por favor, intenta nuevamente.</p>
                       )}
                     </div>
                   </form>

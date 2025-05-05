@@ -9,11 +9,27 @@ export default function Contacto() {
     apellidos: '',
     telefono: '',
     email: '',
+    servicio: '', // Agregamos el campo de servicio
     mensaje: ''
   });
   
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
+  
+  // Número de WhatsApp (reemplaza con el número real)
+  const whatsappNumber = "573332358135"; // Este es el número que aparece en tu código actual
+  
+  // Lista de servicios disponibles
+  const servicios = [
+    { id: 'curso-prenatal', nombre: 'Curso prenatal' },
+    { id: 'cuidados-postparto', nombre: 'Cuidados postparto' },
+    { id: 'asesoria-lactancia', nombre: 'Asesoría en lactancia' },
+    { id: 'asesoria-anticoncepcion', nombre: 'Asesoría en anticoncepción' },
+    { id: 'psicoprofilaxis', nombre: 'Psicoprofilaxis' },
+    { id: 'acompanamiento-parto', nombre: 'Acompañamiento en el parto' },
+    { id: 'consulta-psicologia', nombre: 'Consulta psicológica' },
+    { id: 'otro', nombre: 'Otro' }
+  ];
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,23 +43,51 @@ export default function Contacto() {
     e.preventDefault();
     setEnviando(true);
     
-    // Simulación de envío
-    setTimeout(() => {
-      setEnviando(false);
-      setEnviado(true);
-      setFormData({
-        nombre: '',
-        apellidos: '',
-        telefono: '',
-        email: '',
-        mensaje: ''
-      });
+    try {
+      // Obtener el nombre del servicio seleccionado
+      const servicioSeleccionado = servicios.find(s => s.id === formData.servicio)?.nombre || 'No especificado';
       
-      // Resetear el estado después de 3 segundos
+      // Crear el mensaje para WhatsApp
+      let message = `*Nuevo mensaje de contacto*\n\n`;
+      message += `*Nombre:* ${formData.nombre}\n`;
+      message += `*Apellidos:* ${formData.apellidos}\n`;
+      message += `*Teléfono:* ${formData.telefono}\n`;
+      message += `*Email:* ${formData.email}\n`;
+      message += `*Servicio de interés:* ${servicioSeleccionado}\n`;
+      message += `*Mensaje:*\n${formData.mensaje}`;
+      
+      // Codificar el mensaje para URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Crear la URL de WhatsApp
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+      
+      // Abrir WhatsApp en una nueva ventana
+      window.open(whatsappUrl, '_blank');
+      
+      // Simulación de éxito
       setTimeout(() => {
-        setEnviado(false);
-      }, 3000);
-    }, 1500);
+        setEnviando(false);
+        setEnviado(true);
+        
+        // Resetear el formulario después de 3 segundos
+        setTimeout(() => {
+          setFormData({
+            nombre: '',
+            apellidos: '',
+            telefono: '',
+            email: '',
+            servicio: '',
+            mensaje: ''
+          });
+          setEnviado(false);
+        }, 3000);
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Error al abrir WhatsApp:', error);
+      setEnviando(false);
+    }
   };
 
   return (
@@ -106,6 +150,24 @@ export default function Contacto() {
                 </div>
               </div>
               
+              {/* Campo de selección de servicio */}
+              <div className="mb-4">
+                <select
+                  name="servicio"
+                  value={formData.servicio}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00927c] focus:border-transparent appearance-none bg-white"
+                >
+                  <option value="">Selecciona un servicio</option>
+                  {servicios.map(servicio => (
+                    <option key={servicio.id} value={servicio.id}>
+                      {servicio.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
               <div className="mb-6">
                 <textarea
                   name="mensaje"
@@ -127,7 +189,7 @@ export default function Contacto() {
                     : 'bg-[#00927c] text-white hover:bg-opacity-90'
                 }`}
               >
-                {enviando ? 'Enviando...' : enviado ? '¡Mensaje enviado!' : 'Enviar mensaje'}
+                {enviando ? 'Abriendo WhatsApp...' : enviado ? '¡Mensaje enviado!' : 'Enviar por WhatsApp'}
               </button>
             </form>
           </div>
@@ -145,7 +207,7 @@ export default function Contacto() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-gray-800">Teléfono</h4>
+                    <h4 className="text-lg font-bold text-gray-800">Móvil</h4>
                     <p className="text-gray-600">333 2358135</p>
                   </div>
                 </div>
@@ -158,7 +220,7 @@ export default function Contacto() {
                   </div>
                   <div>
                     <h4 className="text-lg font-bold text-gray-800">Email</h4>
-                    <p className="text-gray-600">nidodecuidados2024@gmail.com</p>
+                    <p className="text-gray-600">gerencia@nidodecuidados.com</p>
                   </div>
                 </div>
                 
@@ -171,7 +233,7 @@ export default function Contacto() {
                   </div>
                   <div>
                     <h4 className="text-lg font-bold text-gray-800">Dirección</h4>
-                    <p className="text-gray-600">Calle 116 b # 74 a - 40, Bogotá, Colombia</p>
+                    <p className="text-gray-600">Calle 116 b # 363544 a - 40, Bogotá, Colombia</p>
                   </div>
                 </div>
               </div>

@@ -60,7 +60,7 @@ export default function Footer() {
         { text: 'Nosotros', url: '/nosotros' },
         { text: 'Blog', url: '/blog' },
         { text: 'Testimonios', url: '/testimonios' },
-        { text: 'Profesionales', url: '/nosotros' }
+        { text: 'Profesionales', url: '/#nosotros' }
       ]
     },
     {

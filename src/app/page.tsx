@@ -4,12 +4,12 @@
 import { useEffect, useRef } from 'react';
 import Servicios from './Servicios';
 import PlanesServicios from './ServiciosPlanes';
-import ServiciosMaternidad from '@/app/components/ServiciosMaternidad';
+
 import Nosotros from './Nosotros';
 import Beneficios from './Beneficios';
 import Contacto from './Contacto';
 import Blog from './Blog';
-import Newsletter from './Newsletter';
+import Testimonials from './Testimonials';
 import Footer from './Footer';
 
 export default function Home() {
@@ -150,7 +150,7 @@ export default function Home() {
       <PlanesServicios />
       
       {/* Sección Newsletter */}
-      <Newsletter />
+      <Testimonials />
       
       {/* Footer */}
       <Footer />
